@@ -1,0 +1,37 @@
+<!-- https://cloud.google.com/appengine/docs/standard/python/getting-started/python-standard-env -->
+
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container-fluid">
+  <form class="form-inline" method="POST" action="{{ url_for('index') }}">
+
+  <div class="row"><div class="col-2">
+    <h2>Available Players</h2>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Rank</th>
+          <th scope="col">ADP</th>
+          <th scope="col">Name</th>
+          <th scope="col">Position</th>
+          <th scope="col">Team</th>
+        </tr>
+      </thead>
+      {% for p in players %}
+      {% if p.pick == 0 %}
+      <tr>
+        <td>{{p.rank}}</td>
+        <td>{{p.adp}}</td>
+        <td>{{p.name}}</td>
+        <td>{{p.position}}</td>
+        <td>{{p.team}}</td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </div></div>
+
+  </div>
+
+{% endblock %}

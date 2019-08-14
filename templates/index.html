@@ -1,0 +1,98 @@
+<!-- https://cloud.google.com/appengine/docs/standard/python/getting-started/python-standard-env -->
+
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container-fluid">
+  <form class="form-inline" method="POST" action="{{ url_for('index') }}">
+
+  <div class="row">
+
+    <input type="hidden" name="onclock" value="{{current}}" onchange="this.form.submit()" />
+    {% for p in players %}
+    <input type="hidden" name="status:{{p.rank}}" value="{{p.pick}}:{{p.owner}}" onchange="this.form.submit()" />
+    {% endfor %}
+
+    <div class="col-md-4">
+      <h2>Available Players</h2>
+      <hr />
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">ADP</th>
+            <th scope="col">Name</th>
+            <th scope="col">Position</th>
+            <th scope="col">Team</th>
+          </tr>
+        </thead>
+        {% for p in players %}
+        {% if p.pick == 0 %}
+        <tr class="{{p.position}}">
+        {% else %}
+        <tr style="display: none;">
+        {% endif %}
+          <td>{{p.rank}}</td>
+          <td>{{p.adp}}</td>
+          <td>{{p.name}}</td>
+          <td>{{p.position}}</td>
+          <td>{{p.team}}</td>
+          <td><input type="submit" name="{{p.rank}}" value="draft" onchange="this.form.submit()" /></td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Current Pick: {{current}} ( {{draft[current-1]}} )</h2>
+        </div>
+        <div class="col-md-6">
+          <input type="submit" name="undo" value="Undo last selection" onchange="this.form.submit()" />
+          <input type="submit" name="clear" value="Clear all picks / Reset" onchange="this.form.submit()" />
+        </div>
+
+      </div>
+
+      <hr />
+
+      <div class="row"><div class="col-md-12">
+        <h2>Upcoming Picks:</h2>
+        <ul class="nav nav-pills">
+        {% for x in range(16) %}
+        {% if x < 180 %}
+        <li class="{{draft[x+current]}}">{{draft[x+current]}}</li>
+        {% endif %}
+        {% endfor %}
+        </ul>
+      </div></div>
+
+      <hr />
+
+      <div class="row"><div class="col-md-12">
+        {% for t in teams %}
+        {% if t.name|string() == draft[current-1]|string() %}
+        <h4>{{t.name}}</h4>
+        {% else %}
+        <h5>{{t.name}}</h5>
+        {% endif %}
+        <ul class="nav nav-pills">
+          {% for p in t.roster %}
+          <li class="{{p.position}}">{{p.name}} ({{p.position}})</li>
+          {% endfor %}
+        </ul>
+        {% endfor %}
+
+
+        </div>
+
+    </div></div>
+
+
+  </div>
+  </form>
+
+  </div>
+
+{% endblock %}
