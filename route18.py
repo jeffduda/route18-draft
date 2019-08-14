@@ -8,6 +8,7 @@ class Player:
         self.team = ""
         self.pick = 0
         self.owner = ""
+        self.prior = 0
 
 def Route18_2019():
     draft = []
