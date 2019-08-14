@@ -4,7 +4,7 @@ class Player:
         self.name = ""
         self.position = ""
         self.rank = 0
-        self.adp = 0.0
+        self.adp = 0
         self.team = ""
         self.pick = 0
         self.owner = ""
@@ -4493,9 +4493,11 @@ def FantasyPros():
 
     priorSum = 0
     for p in players:
-        p.prior = (500-p.rank)*(20-x$Tier)+2.0*(p.rank-p.adp)
+        print(p.name, p.adp)
+        p.prior = (500.0-float(p.rank)) * (20.0 - float(p.tier)) + 2.0*(p.rank)
+        #*(20.0-float(p.tier))+2.0*(float(p.rank)-float(p.adp))
         priorSum += p.prior
-        
+
     for p in players:
         p.prior =  p.prior / priorSum
 
