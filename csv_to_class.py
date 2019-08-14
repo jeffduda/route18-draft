@@ -23,6 +23,7 @@ def csv_to_class(csvfilename, classFileName, className):
                 file.write("    p.rank = "+row[0]+"\n")
                 file.write("    p.name = \""+row[3]+"\"\n")
                 file.write("    p.team = '"+row[4]+"'\n")
+                file.write("    p.tier = "+row[1]+"\n")
 
                 if row[5].find('QB') != -1:
                     file.write("    p.position = 'QB'\n")
